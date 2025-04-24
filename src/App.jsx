@@ -3,6 +3,13 @@ import "./App.css";
 import Cart from "./components/Cart";
 import Reset from "./components/Reset";
 import Header from "./components/Header";
+import CartPage from "./pages/CartPage";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import NotFound from "./pages/NotFound";
+import AboutCompany from "./pages/AboutCompany";
+import AboutMe from "./pages/AboutMe";
 
 function App() {
   const [items, setItems] = useState([
@@ -35,24 +42,29 @@ function App() {
   }
 
   return (
-    <div className="container">
+    <BrowserRouter>
       <Header count={items.length} />
-      {items.length === 0 && (
-        <h2 className="mt-4">Cart is Empty, Please add to cart</h2>
-      )}
-      {items.map((item) => (
-        <Cart
-          id={item.id}
-          name={item.name}
-          count={item.count}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-          key={item.id}
-          handleDelete={handleDelete}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/cart"
+          element={
+            <CartPage
+              items={items}
+              handleDecrement={handleDecrement}
+              handleIncrement={handleIncrement}
+              handleDelete={handleDelete}
+              handleReset={handleReset}
+            />
+          }
         />
-      ))}
-      {items.length > 0 && <Reset handleReset={handleReset} />}
-    </div>
+        <Route path="/about" element={<About />}>
+          <Route path="company" element={<AboutCompany />} />
+          <Route path="me" element={<AboutMe />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

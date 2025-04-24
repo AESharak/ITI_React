@@ -1,8 +1,19 @@
+import { Link, NavLink } from "react-router";
+
 function Header({ count }) {
   return (
     <div className="navbar bg-base-100 shadow-sm flex justify-between">
-      <a className="btn btn-ghost text-xl">daisyUI</a>
-      <button className="relative">
+      <NavLink
+        to={"/"}
+        className={({ isActive }) =>
+          isActive
+            ? `btn btn-ghost text-xl font-bold text-teal-600`
+            : `btn btn-ghost text-xl`
+        }
+      >
+        daisyUI
+      </NavLink>
+      <Link className="relative" to={"/cart"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -21,7 +32,18 @@ function Header({ count }) {
         <span className="bg-red-600 text-white flex justify-center items-center absolute left-0 -top-0.5 w-4 h-4 rounded-lg">
           {count}
         </span>
-      </button>
+      </Link>
+
+      <NavLink
+        to={"/about"}
+        className={({ isActive }) =>
+          isActive
+            ? `btn btn-ghost text-xl font-bold text-teal-600`
+            : `btn btn-ghost text-xl`
+        }
+      >
+        about
+      </NavLink>
     </div>
   );
 }
