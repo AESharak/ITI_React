@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Cart from "./components/Cart";
 import Reset from "./components/Reset";
+import Header from "./components/Header";
 
 function App() {
   const [items, setItems] = useState([
@@ -28,8 +29,17 @@ function App() {
     setItems(newItem);
   }
 
+  function handleDelete(id) {
+    const newItemsAfterDeletion = items.filter((itm) => itm.id !== id);
+    setItems(newItemsAfterDeletion);
+  }
+
   return (
     <div className="container">
+      <Header count={items.length} />
+      {items.length === 0 && (
+        <h2 className="mt-4">Cart is Empty, Please add to cart</h2>
+      )}
       {items.map((item) => (
         <Cart
           id={item.id}
@@ -38,9 +48,10 @@ function App() {
           handleIncrement={handleIncrement}
           handleDecrement={handleDecrement}
           key={item.id}
+          handleDelete={handleDelete}
         />
       ))}
-      <Reset handleReset={handleReset} />
+      {items.length > 0 && <Reset handleReset={handleReset} />}
     </div>
   );
 }
