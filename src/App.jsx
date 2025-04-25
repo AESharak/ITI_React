@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Cart from "./components/Cart";
 import Reset from "./components/Reset";
@@ -10,13 +10,12 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import AboutCompany from "./pages/AboutCompany";
 import AboutMe from "./pages/AboutMe";
+import GameLab from "./pages/GameLab";
+import CreateProduct from "./pages/CreateProduct";
+import axios from "axios";
 
 function App() {
-  const [items, setItems] = useState([
-    { id: 1, name: "Burger", count: 0 },
-    { id: 2, name: "shrimps", count: 0 },
-    { id: 3, name: "meat", count: 0 },
-  ]);
+  const [items, setItems] = useState([]);
 
   function handleIncrement(id) {
     const newItem = items.map((itm) =>
@@ -41,11 +40,21 @@ function App() {
     setItems(newItemsAfterDeletion);
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get("http://localhost:3000/products");
+      setItems(data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <BrowserRouter>
       <Header count={items.length} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/createProduct" element={<CreateProduct />} />
         <Route
           path="/cart"
           element={
@@ -62,6 +71,7 @@ function App() {
           <Route path="company" element={<AboutCompany />} />
           <Route path="me" element={<AboutMe />} />
         </Route>
+        <Route path="/game" element={<GameLab />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
