@@ -1,32 +1,26 @@
-import Cart from "../components/Cart";
-import Header from "../components/Header";
-import Reset from "../components/Reset";
+import CartItem from "../components/CartItem";
 
-function CartPage({
-  items,
-  handleDecrement,
-  handleIncrement,
-  handleDelete,
-  handleReset,
-}) {
+function CartPage({ cartItems, onToggleInCart }) {
   return (
-    <>
-      {items.length === 0 && (
-        <h2 className="mt-4">Cart is Empty, Please add to cart</h2>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
+
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <>
+          <div className="space-y-4">
+            {cartItems.map((item) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                onRemove={() => onToggleInCart(item.id)}
+              />
+            ))}
+          </div>
+        </>
       )}
-      {items.map((item) => (
-        <Cart
-          id={item.id}
-          name={item.name}
-          count={item.count}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-          key={item.id}
-          handleDelete={handleDelete}
-        />
-      ))}
-      {items.length > 0 && <Reset handleReset={handleReset} />}
-    </>
+    </div>
   );
 }
 

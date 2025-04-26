@@ -35,14 +35,14 @@ function Header({ count }) {
       </Link>
 
       <NavLink
-        to={"/about"}
+        to={"/menu"}
         className={({ isActive }) =>
           isActive
             ? `btn btn-ghost text-xl font-bold text-teal-600`
             : `btn btn-ghost text-xl`
         }
       >
-        about
+        Menu
       </NavLink>
     </div>
   );
